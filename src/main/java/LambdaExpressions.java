@@ -6,6 +6,7 @@ public class LambdaExpressions {
 
     public String filterExample(){
         String[] input = {"tiger", "cat", "TIGER", "Tiger", "leopard"};
+
         List<String> cats = Arrays.asList(input);
         String search = "tiger";
         String tigers = cats.stream()
@@ -14,4 +15,16 @@ public class LambdaExpressions {
 
         return tigers;
     }
+
+    public List<Integer> mapExample(){
+        String[] input = {"tiger", "cat", "TIGER", "Tiger", "leopard"};
+        List<String> cats = Arrays.asList(input);
+
+        List<Integer> namesLength = cats.stream()
+                .map(c -> c.length())
+                .collect(Collectors.toList());
+
+        return namesLength;
+    }
+
 }
