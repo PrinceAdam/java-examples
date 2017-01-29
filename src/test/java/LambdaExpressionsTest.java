@@ -29,4 +29,11 @@ public class LambdaExpressionsTest {
         Assert.assertEquals(7, namesLength.get(4).intValue());
     }
 
+    @Test
+    public void reduceExample() throws Exception {
+        LambdaExpressions lambdaExamples = new LambdaExpressions();
+        double sumPrimes = lambdaExamples.reduceExample();
+        Assert.assertEquals(100, sumPrimes);
+    }
+
 }
