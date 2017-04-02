@@ -21,4 +21,13 @@ public class CallablesAndFuturesTest {
         Assert.assertTrue(true);
     }
 
+    @Test
+    public void invokeAllExampleTest() throws Exception {
+        CallablesAndFutures callableAndFutureExample = new CallablesAndFutures();
+        callableAndFutureExample.invokeAllExample();
+
+        Assert.assertTrue(true);
+    }
+
+
 }

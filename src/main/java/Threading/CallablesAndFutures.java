@@ -1,5 +1,7 @@
 package Threading;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class CallablesAndFutures {
@@ -57,4 +59,57 @@ public class CallablesAndFutures {
         // Block to wait for the future to complete
         future.get(1, TimeUnit.SECONDS);
     }
+
+    /**
+     * Executors support batch submitting of multiple callables at once via invokeAll().
+     * This method accepts a collection of callables and returns a list of futures.
+     *
+     * In this example we utilize Java 8 functional streams in order to process all futures
+     * returned by the invocation of invokeAll.
+     * We first map each future to its return value and then print each value to the console. If you're not yet familiar with streams read my Java 8 Stream Tutorial.
+     *
+     * @throws InterruptedException
+     */
+    public void invokeAllExample() throws InterruptedException {
+        ExecutorService executor = Executors.newWorkStealingPool();
+
+        List<Callable<String>> callables = Arrays.asList(
+                () -> "task1",
+                () -> "task2",
+                () -> "task3");
+
+
+        executor.invokeAll(callables)
+                .stream()
+                .map(future -> {
+                    try {
+                        return future.get();
+                    }
+                    catch (Exception e) {
+                        throw new IllegalStateException(e);
+                    }
+                })
+                .forEach(System.out::println);
+    }
+
+//    public void invokeAnyExample() {
+//        Callable<String> callable(String result, long sleepSeconds) {
+//            return () -> {
+//                TimeUnit.SECONDS.sleep(sleepSeconds);
+//                return result;
+//            };
+//        }
+//
+//        ExecutorService executor = Executors.newWorkStealingPool();
+//
+//        List<Callable<String>> callables = Arrays.asList(
+//                callable("task1", 2),
+//                callable("task2", 1),
+//                callable("task3", 3));
+//
+//        String result = executor.invokeAny(callables);
+//        System.out.println(result);
+//
+//// => task2
+//    }
 }
