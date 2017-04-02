@@ -1,0 +1,60 @@
+package Threading;
+
+import java.util.concurrent.*;
+
+public class CallablesAndFutures {
+
+    /**
+     * In addition to Runnable, executors support another kind of task named Callable.
+     * Callables are functional interfaces just like runnables but
+     * instead of being void they return a value.
+     * This lambda expression defines a callable returning an integer
+     * after sleeping for one second
+     *
+     * Callables can be submitted to executor services just like runnables.
+     * But what about the callables result?
+     * Since submit() doesn't wait until the task completes, the executor service
+     * cannot return the result of the callable directly.
+     * Instead the executor returns a special result of type Future
+     * which can be used to retrieve the actual result at a later point in time.
+     */
+    public void runABasicTaskUsingCallableAndFuture() throws ExecutionException, InterruptedException {
+        Callable<Integer> task = () -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                return 123;
+            }
+            catch (InterruptedException e) {
+                throw new IllegalStateException("task interrupted", e);
+            }
+        };
+
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Future<Integer> future = executor.submit(task);
+
+        System.out.println("future done? " + future.isDone());
+
+        // Block to wait for the future to complete
+        Integer result = future.get();
+
+        System.out.println("future done? " + future.isDone());
+        System.out.print("result: " + result);
+    }
+
+    public void runABasicTaskUsingCallableAndFutureWithTimeout() throws ExecutionException, InterruptedException, TimeoutException {
+
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Future<Integer> future = executor.submit(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                return 123;
+            }
+            catch (InterruptedException e) {
+                throw new IllegalStateException("task interrupted", e);
+            }
+        });
+
+        // Block to wait for the future to complete
+        future.get(1, TimeUnit.SECONDS);
+    }
+}

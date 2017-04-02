@@ -1,3 +1,5 @@
+package Threading;
+
 import Threading.ThreadsAndExecutors;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,5 +21,26 @@ public class ThreadsAndExecutorsTest {
 
         Assert.assertTrue(true);
     }
+
+    @Test
+    public void executorIntroTest() throws Exception {
+        ThreadsAndExecutors executorExample = new ThreadsAndExecutors();
+        executorExample.executorIntro();
+
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void executorWithCleanShutdownTest() throws Exception {
+        ThreadsAndExecutors executorExample = new ThreadsAndExecutors();
+        executorExample.executorWithCleanShutdown();
+
+        Assert.assertTrue(true);
+    }
+
+
+
+
+
 
 }
