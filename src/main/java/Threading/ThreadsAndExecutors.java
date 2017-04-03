@@ -62,7 +62,8 @@ public class ThreadsAndExecutors {
      * as a higher level replacement for working with threads directly.
      * Executors are capable of running asynchronous tasks and typically
      * manage a pool of threads.
-     * The class Executors provides convenient factory methods for creating different kinds of executor services.
+     * The class Executors provides convenient factory methods for creating
+     * different kinds of executor services.
      * In this sample we use an executor with a thread pool of size one.
      */
     public void executorIntro(){

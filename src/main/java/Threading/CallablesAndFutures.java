@@ -92,24 +92,38 @@ public class CallablesAndFutures {
                 .forEach(System.out::println);
     }
 
-//    public void invokeAnyExample() {
-//        Callable<String> callable(String result, long sleepSeconds) {
-//            return () -> {
-//                TimeUnit.SECONDS.sleep(sleepSeconds);
-//                return result;
-//            };
-//        }
-//
-//        ExecutorService executor = Executors.newWorkStealingPool();
-//
-//        List<Callable<String>> callables = Arrays.asList(
-//                callable("task1", 2),
-//                callable("task2", 1),
-//                callable("task3", 3));
-//
-//        String result = executor.invokeAny(callables);
-//        System.out.println(result);
-//
-//// => task2
-//    }
+    /**
+     * We use this method to create a bunch of callables with different durations
+     * from one to three seconds.
+     * Submitting those callables to an executor via invokeAny()
+     * returns the string result of the fastest callable - in that case task2
+     * This example uses yet another type of executor created via newWorkStealingPool().
+     * This factory method is part of Java 8 and returns an executor of type ForkJoinPool
+     * which works slightly different than normal executors.
+     * Instead of using a fixed size thread-pool, ForkJoinPools are created for
+     * a given parallelism size which per default is the number of
+     * available cores of the hosts CPU.
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public void invokeAnyExample() throws ExecutionException, InterruptedException {
+
+        ExecutorService executor = Executors.newWorkStealingPool();
+
+        List<Callable<String>> callables = Arrays.asList(
+                testCallableWithSleep("task1", 2),
+                testCallableWithSleep("task2", 1),
+                testCallableWithSleep("task3", 3));
+
+        String result = executor.invokeAny(callables);
+        System.out.println(result);
+
+        // => task2
+    }
+    Callable<String> testCallableWithSleep(String result, long sleepSeconds) {
+        return () -> {
+            TimeUnit.SECONDS.sleep(sleepSeconds);
+            return result;
+        };
+    }
 }
